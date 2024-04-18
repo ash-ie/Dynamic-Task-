@@ -1,0 +1,46 @@
+{% extends 'emptemp/index.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">Tasks</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Project</th>
+                    <th scope="col">Task</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Deadline</th>
+                    <th scope="col">Priority</th>
+                    <th scope="col">Created On</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in data %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{i.project}}</td>
+                    <td>{{i.name}}</td>
+                    <td>{{i.description}}</td>
+                    <td>{{i.deadline}}</td>
+                    <td style="color:
+                        {% if i.priority == 'LOW' %}
+                            green
+                        {% elif i.priority == 'HIGH' %}
+                            orange
+                        {% elif i.priority == 'CRITICAL' %}
+                            red
+                        {% endif %}
+                        ">{{i.priority}}</td>
+                    <td>{{i.created_on}}</td>
+                    <td>{{i.status}}</td>
+                    <td><a href="{% url 'update-task-status' i.id %}" class="btn btn-sm btn-danger">Update</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

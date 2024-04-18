@@ -1,0 +1,38 @@
+{% extends 'emptemp/index.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">Inboxes</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Recipient</th>
+                    <th scope="col">Subject</th>
+                    <th scope="col">Message</th>
+                    <th scope="col">Send At</th>
+                    <th scope="col">Reply</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in data %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{i.recipient}}</td>
+                    <td>{{i.subject}}</td>
+                    <td>{{i.body}}</td>
+                    <td>{{i.sent_at}}</td>
+                    <td>{% if i.reply == None %}
+                        <p>No Reply Yet..</p>
+                        {% else %}
+                        {{i.reply}}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
