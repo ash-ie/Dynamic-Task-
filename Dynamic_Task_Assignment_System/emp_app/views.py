@@ -6,6 +6,12 @@ from django.contrib.auth.decorators import login_required
 def employee_dashboard(request):
     return render(request,'emptemp/index.html')
 
+def emp_profile(request):
+    u = request.user
+    print(u)
+    data = UserProfile.objects.filter(user=u)
+    return render(request,'emptemp/profile.html',{'data':data})
+
 @login_required(login_url='sign-in')
 def task_view_employee(request):
     data = Task.objects.filter(employee=request.user)

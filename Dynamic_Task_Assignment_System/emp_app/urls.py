@@ -3,6 +3,7 @@ from emp_app import views
 
 urlpatterns = [
     path('emp-dashboard/',views.employee_dashboard,name='emp-dashboard'),
+    path('emp-profile/',views.emp_profile,name='emp-profile'),
     path('task-view-employee/',views.task_view_employee,name='task-view-employee'),
     path('update-task-status/<int:pk>/',views.update_task_status,name='update-task-status'),
     path('send-message/',views.send_message,name='send-message'),

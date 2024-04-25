@@ -3,6 +3,7 @@ from tl_app import views
 
 urlpatterns = [
     path('tl-dashboard/',views.tl_dashboard,name='tl-dashboard'),
+    path('tl-profile/',views.tl_profile,name='tl-profile'),
     path('company-employee/',views.company_employee,name='company-employee'),
     path('project-tl/',views.project_view_tl,name='project-tl'),
     path('create-task/', views.create_task, name='create-task'),

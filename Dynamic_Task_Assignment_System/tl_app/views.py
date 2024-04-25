@@ -7,6 +7,12 @@ from emp_app.models import *
 def tl_dashboard(request):
     return render(request,'tltemp/index.html')
 
+def tl_profile(request):
+    u = request.user
+    print(u)
+    data = UserProfile.objects.filter(user=u)
+    return render(request,'tltemp/profile.html',{'data':data})
+
 @login_required(login_url='sign-in')
 def company_employee(request):
     u = request.user
