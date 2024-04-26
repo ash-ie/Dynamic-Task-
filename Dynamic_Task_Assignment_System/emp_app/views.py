@@ -25,6 +25,7 @@ def update_task_status(request, pk):
         if form.is_valid():
             data = Task.objects.get(id=pk)
             data.status=form.cleaned_data['status']
+            data.percentage=form.cleaned_data['percentage']
             data.save()
             return redirect('task-view-employee')
     else:

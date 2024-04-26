@@ -6,7 +6,7 @@ from emp_app.models import *
 class TaskStatusForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['status']
+        fields = ['status','percentage']
 
 class MessageForm(forms.ModelForm):
     class Meta:

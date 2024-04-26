@@ -1,8 +1,14 @@
+from datetime import timezone
+from io import BytesIO
+from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from accounts.models import *
 from tl_app.forms import *
 from emp_app.models import *
+import xlsxwriter
+
+
 # Create your views here.
 def tl_dashboard(request):
     return render(request,'tltemp/index.html')
@@ -52,11 +58,43 @@ def view_tasks(request):
     context = {'data':data}
     return render(request,'tltemp/tasks.html',context)
 
+def export_tasks(request):
+    u = request.user
+    pro = Project.objects.filter(teamlead=request.user)
+    data = Task.objects.filter(project__in=pro)
+
+    # Create an in-memory Excel file
+    output = BytesIO()
+    workbook = xlsxwriter.Workbook(output)
+    worksheet = workbook.add_worksheet()
+
+    # Write headers
+    headers = ['Task Name', 'Project', 'Assigned To', 'Status', 'Priority', 'Deadline', 'Percentage']
+    for col, header in enumerate(headers):
+        worksheet.write(0, col, header)
+
+    # Write data rows
+    for row, task in enumerate(data, start=1):
+        worksheet.write(row, 0, task.name)
+        worksheet.write(row, 1, task.project.name)
+        worksheet.write(row, 2, task.employee.username)
+        worksheet.write(row, 3, task.status)
+        worksheet.write(row, 4, task.priority)
+        worksheet.write(row, 6, task.percentage)
+
+    workbook.close()
+
+    # Set response headers for Excel file download
+    response = HttpResponse(output.getvalue(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=tasks.xlsx'
+    return response
 
 def project_progress_report(project):
     total_tasks = project.tasks.count()
-    in_progress_tasks = project.tasks.filter(status='IN_PROGRESS').count()
-    progress_rate = (in_progress_tasks / total_tasks) * 100 if total_tasks > 0 else 0
+    in_progress_tasks = project.tasks.filter(status='IN_PROGRESS')
+    total_percentage = sum(task.percentage for task in in_progress_tasks)
+    # progress_rate = (in_progress_tasks / total_tasks) * 100 if total_tasks > 0 else 0
+    progress_rate = (total_percentage / (total_tasks * 100)) * 100 if total_tasks > 0 else 0
     return progress_rate
 
 

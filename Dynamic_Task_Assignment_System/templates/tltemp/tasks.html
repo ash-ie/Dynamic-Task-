@@ -1,9 +1,13 @@
 {% extends 'tltemp/index.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
+<a href="{% url 'export-task' %}" class="btn btn-primary mb-3">Export</a>
 <div class="card">
     <div class="card-body">
+        <div class="row d-flex justify-content-between align-items-center">
         <h3 class="card-title">Tasks</h3>
+        <a href="{% url 'create-task' %}" class="btn btn-primary mb-3">Add Task</a>
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>
