@@ -80,6 +80,7 @@ def export_tasks(request):
         worksheet.write(row, 2, task.employee.username)
         worksheet.write(row, 3, task.status)
         worksheet.write(row, 4, task.priority)
+        worksheet.write(row, 5, task.deadline)
         worksheet.write(row, 6, task.percentage)
 
     workbook.close()

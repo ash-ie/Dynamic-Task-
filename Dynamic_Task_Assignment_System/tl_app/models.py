@@ -18,7 +18,7 @@ class Task(BaseModel):
     project = models.ForeignKey(Project, on_delete=models.CASCADE,related_name='tasks')
     name = models.CharField(max_length=200,null=True,blank=True)
     description = models.TextField(null=True,blank=True)
-    deadline = models.DateTimeField(null=True,blank=True)
+    deadline = models.CharField(max_length=20,null=True,blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='TO_DO')
     priority = models.CharField(max_length=20,choices=PRIORITY_CHOICES,default='LOW')
     percentage = models.IntegerField(null=True,blank=True,default=0)
